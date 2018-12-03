@@ -1,0 +1,30 @@
+library(RPostgreSQL)
+library(DBI)
+
+
+# stag_ps<-
+# RPostgreSQL::PostgreSQL()
+
+
+
+# make connection
+db_con <- dbConnect(RPostgreSQL::PostgreSQL(), dbname = 'the_database_name', 
+                 host = 'the host url ex www.something.something.aws.blah.blah.blah',
+                 port = 5432, # or any other port specified by your DBA
+                 user = 'user_name',
+                 password = 'password')
+
+
+
+# short queries:
+dtab = dbGetQuery(stag_con, "select count(*), states from table where created>'2018-11-30' group by states;")
+
+# long queries with additional single/double quoates need to be escaped with  slashes \\:
+
+the_query='select count(*), states from table where created>\'2018-11-30\' and states=\"higher\" group by states;';
+my_res=dbGetQuery(stag_con,the_query)
+
+#break connection
+dbDisconnect(db_con)
+
+#Ubuntu 16.04 LTS
